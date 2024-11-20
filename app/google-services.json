@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "846344761190",
+    "project_id": "effectivemobiletest-773bd",
+    "storage_bucket": "effectivemobiletest-773bd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846344761190:android:d3ca478644ccad7b57e2a7",
+        "android_client_info": {
+          "package_name": "com.iushin.effectivemobiletest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDan3WmerrGM8_16lrUwdEFRSfSnMxyHMw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
