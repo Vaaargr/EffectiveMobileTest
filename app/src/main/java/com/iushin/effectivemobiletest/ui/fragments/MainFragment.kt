@@ -5,13 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.iushin.effectivemobiletest.R
 import com.iushin.effectivemobiletest.databinding.FragmentMainBinding
+import com.iushin.effectivemobiletest.presentation.viewModel.MainFragmentViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
+
+    private val viewModel by viewModel<MainFragmentViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,7 +28,17 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.observeUserName().observe(viewLifecycleOwner){ name ->
+            if (name.isNullOrEmpty()){
+                binding.tv.text = "Hernya"
+            } else{
+                binding.tv.text = name
+            }
+        }
 
+        binding.bt.setOnClickListener {
+            viewModel.checkUserName()
+        }
     }
 
     override fun onDestroyView() {

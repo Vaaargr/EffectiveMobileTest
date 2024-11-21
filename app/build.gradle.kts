@@ -67,6 +67,10 @@ dependencies {
 
     //Firebase-bom
     implementation(platform(libs.firbase.bom))
+
     //Firebase-authorisation
     implementation(libs.firbase.auth)
+
+    //Coroutines
+    implementation(libs.kotlinx.coroutines)
 }

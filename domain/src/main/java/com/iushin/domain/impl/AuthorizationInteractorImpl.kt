@@ -8,7 +8,7 @@ import com.iushin.domain.entity.SignInState
 class AuthorizationInteractorImpl(private val authRepository: AuthorizationRepository) :
     AuthorizationInteractor {
 
-    override fun createUser(
+    override suspend fun createUser(
         email: String,
         password: String,
         listener: (SignUpState) -> Unit
@@ -16,11 +16,7 @@ class AuthorizationInteractorImpl(private val authRepository: AuthorizationRepos
         authRepository.createUser(email = email, password = password, listener = listener)
     }
 
-    override fun logIn(email: String, password: String, listener: (SignInState) -> Unit) {
+    override suspend fun logIn(email: String, password: String, listener: (SignInState) -> Unit) {
         authRepository.logIn(email = email, password = password, listener = listener)
-    }
-
-    override fun getCurrentUserMail(): String? {
-        return authRepository.getCurrentUserMail()
     }
 }

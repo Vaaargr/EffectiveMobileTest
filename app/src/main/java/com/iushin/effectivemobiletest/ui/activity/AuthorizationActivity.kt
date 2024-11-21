@@ -85,11 +85,8 @@ class AuthorizationActivity : AppCompatActivity() {
     }
 
     private fun goToMainActivity() {
-        val userMail = viewModel.getUserEmail()
-        if (userMail != null) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
     }
 
     private fun signUpCheckDate(): Boolean {

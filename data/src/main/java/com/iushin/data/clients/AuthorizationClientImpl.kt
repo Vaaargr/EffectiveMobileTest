@@ -7,7 +7,7 @@ import com.iushin.domain.entity.SignInState
 
 class AuthorizationClientImpl(private val authorizer: FirebaseAuth) : AuthorizationClient {
 
-    override fun createUser(
+    override suspend fun createUser(
         email: String,
         password: String,
         listener: (SignUpState) -> Unit
@@ -22,7 +22,7 @@ class AuthorizationClientImpl(private val authorizer: FirebaseAuth) : Authorizat
             }
     }
 
-    override fun logIn(email: String, password: String, listener: (SignInState) -> Unit) {
+    override suspend fun logIn(email: String, password: String, listener: (SignInState) -> Unit) {
         authorizer.signInWithEmailAndPassword(email, password).addOnCompleteListener { state ->
             if (state.isSuccessful) {
                 listener(SignInState.SUCCESSFUL)
@@ -30,9 +30,5 @@ class AuthorizationClientImpl(private val authorizer: FirebaseAuth) : Authorizat
                 listener(SignInState.UNSUCCESSFUL)
             }
         }
-    }
-
-    override fun getCurrentUserMail(): String? {
-        return authorizer.currentUser?.email
     }
 }

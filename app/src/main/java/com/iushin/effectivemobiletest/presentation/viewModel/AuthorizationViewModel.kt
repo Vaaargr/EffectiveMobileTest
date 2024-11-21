@@ -3,36 +3,39 @@ package com.iushin.effectivemobiletest.presentation.viewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.iushin.domain.api.interactors.AuthorizationInteractor
 import com.iushin.domain.entity.SignInState
 import com.iushin.domain.entity.SignUpState
 import com.iushin.effectivemobiletest.presentation.state.AuthorizationUIState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AuthorizationViewModel(private val authInteracor: AuthorizationInteractor) : ViewModel() {
 
     private val authUIStateLD =
         MutableLiveData<AuthorizationUIState>(AuthorizationUIState.ENTRANCE)
 
-    private val signUpState = MutableLiveData<SignUpState>()
+    private val signUpStateLD = MutableLiveData<SignUpState>()
 
-    private val signInState = MutableLiveData<SignInState>()
+    private val signInStateLD = MutableLiveData<SignInState>()
 
     fun observeAuthorizationUIState(): LiveData<AuthorizationUIState> = authUIStateLD
 
-    fun observeSignUpState(): LiveData<SignUpState> = signUpState
+    fun observeSignUpState(): LiveData<SignUpState> = signUpStateLD
 
-    fun observeSignInState(): LiveData<SignInState> = signInState
+    fun observeSignInState(): LiveData<SignInState> = signInStateLD
 
     private fun setAuthorizationUIState(state: AuthorizationUIState) {
         authUIStateLD.value = state
     }
 
     private fun setSignUpState(state: SignUpState) {
-        signUpState.value = state
+        signUpStateLD.value = state
     }
 
     private fun setSignInState(state: SignInState) {
-        signInState.value = state
+        signInStateLD.value = state
     }
 
     fun changeUIState() {
@@ -44,18 +47,18 @@ class AuthorizationViewModel(private val authInteracor: AuthorizationInteractor)
     }
 
     fun signUpButtonPressed(email: String, password: String) {
-        authInteracor.createUser(email = email, password = password) { state ->
-            setSignUpState(state)
+        viewModelScope.launch(Dispatchers.IO) {
+            authInteracor.createUser(email = email, password = password) { state ->
+                setSignUpState(state)
+            }
         }
     }
 
     fun signInButtonPressed(email: String, password: String) {
-        authInteracor.logIn(email = email, password = password) { state ->
-            setSignInState(state)
+        viewModelScope.launch(Dispatchers.IO) {
+            authInteracor.logIn(email = email, password = password) { state ->
+                setSignInState(state)
+            }
         }
-    }
-
-    fun getUserEmail(): String?{
-        return authInteracor.getCurrentUserMail()
     }
 }
